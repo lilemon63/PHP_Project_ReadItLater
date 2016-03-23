@@ -8,13 +8,16 @@ $app->get('/index/{name}', function ($name) use ($app) {
 */
 
 $app->get('/index', function () use ($app) {
-	
+
     $links = $app['dao.link']->findAll();
-    
+/*    
 	ob_start();
 	require(__DIR__ . '/../views/viewIndex.php');
 	$view = ob_get_clean();
-    return $view;
+*/
+	
+    return $app['twig']
+		->render('viewIndex.html.twig',array('links' => $links));
 });
 
 $app->get('/info', function () use ($app) {
