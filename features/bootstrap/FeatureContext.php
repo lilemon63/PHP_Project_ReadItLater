@@ -34,18 +34,48 @@ class FeatureContext implements Context, SnippetAcceptingContext
      */
     public function theWebServerIsStarted()
     {		
-		$this->fp = @fsockopen("localhost", 8080, $errno, $errstr, 0.4); //(line 47)
+		$this->fp = @fsockopen("localhost", 8080, $errno, $errstr, 0.4);
+    }
+    
+    /**
+     * @Then I shoud have a web server started
+     */
+    public function iShoudHaveAWebServerStarted()
+    {
+		PHPUnit_Framework_Assert::assertNotNull($this->fp);		
+    }
+
+
+    /**
+     * @Given PdoSql extension is loaded
+     */
+    public function pdosqlExtensionIsLoaded()
+    {
+        PHPUnit_Framework_Assert::assertTrue(extension_loaded("pdo_mysql"));
+    }
+    
+    /**
+     * @When I run the route to create my database
+     */
+    public function iRunTheRouteToCreateMyDatabase()
+    {
 		
-		//PHPUnit_Framework_Assert::assertNotNull($fp);		
+		
+		$ch = curl_init("http://localhost:8080/system/createDB");
+		curl_exec($ch);
+		//"http://localhost:8080/system/createDB"
+        //throw new PendingException();
     }
 
     /**
-     * @Then I should assert true
+     * @Then I should have a database created
      */
-    public function iShouldAssertTrue()
+    public function iShouldHaveADatabaseCreated()
     {
-				
-		PHPUnit_Framework_Assert::assertNotNull($this->fp);		
-		//PHPUnit_Framework_Assert::assertNotNull($fp);		
+        $pdo = new PDO("mysql:host=127.0.0.1", "Lilemon", "a1z2e3r4");
+		$stmt = $pdo->query("SELECT COUNT(*) FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = '$this->db'");
+		PHPUnit_Framework_Assert::assertTrue((bool) $stmt->fetchColumn());
     }
+
+
 }

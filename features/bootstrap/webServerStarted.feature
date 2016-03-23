@@ -4,4 +4,4 @@ Feature: webServerStarted
 	
 Scenario: start the web server
   Given The web server is started
-  Then I should assert true
+  Then I shoud have a web server started
