@@ -82,4 +82,5 @@ class Framework_MockObject_Invocation_StaticTest extends PHPUnit_Framework_TestC
 
         $this->assertSame($expectedReturnType, $invocation->returnType);
     }
+
 }

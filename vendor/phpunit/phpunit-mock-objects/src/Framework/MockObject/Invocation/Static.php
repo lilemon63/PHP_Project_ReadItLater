@@ -140,8 +140,7 @@ class PHPUnit_Framework_MockObject_Invocation_Static implements PHPUnit_Framewor
     }
 
     /**
-     * @param object $original
-     *
+     * @param  object $original
      * @return object
      */
     protected function cloneObject($original)

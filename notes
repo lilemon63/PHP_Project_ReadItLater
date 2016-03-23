@@ -1,6 +1,7 @@
 install server sql 
 install php7.0-mbstring
 
+Behat
 problèmes avec l'install 3.0
 http://docs.behat.org/en/v3.0/quick_intro_pt1.html#method-1-composer-the-recommended-one
 => 1) mbString [ solved ]
@@ -11,3 +12,6 @@ lors de
 php composer.phar require --dev behat/behat=~3.0.4
 
 behat 2.5 : http://docs.behat.org/en/v2.5/quick_intro.html
+
+suivi du tuto 
+https://openclassrooms.com/courses/evoluez-vers-une-architecture-php-professionnelle

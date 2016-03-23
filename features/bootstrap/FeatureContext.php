@@ -26,7 +26,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
      */
     public function __construct()
     {
-		$this->db = "RIT_DB";
+		$this->db = "rit_db";
     }
     
     /**
@@ -63,8 +63,6 @@ class FeatureContext implements Context, SnippetAcceptingContext
 		
 		$ch = curl_init("http://localhost:8080/system/createDB");
 		curl_exec($ch);
-		//"http://localhost:8080/system/createDB"
-        //throw new PendingException();
     }
 
     /**
