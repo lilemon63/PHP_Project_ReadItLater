@@ -9,12 +9,13 @@
     <header>
         <h1>ReadItLater</h1>
     </header>
-    <?php foreach ($links as $link): ?>
+    
+    {% for link in links %}
     <article>
-        <h2><?php echo $link->getUrl() ?></h2>
-        <p><?php echo $link->getStatus() ?></p>
+        <h2>{{ link.url }}</h2>
+        <p>{{ link.status }}</p>
     </article>
-    <?php endforeach ?>
+    {% endfor %}
     <footer class="footer">
 		Fait par Maxime Mikotajewski et Damien Morel
     </footer>
