@@ -1,0 +1,12 @@
+{% extends "layout.html.twig" %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+{% for link in links %}
+<article>
+    <h2>{{link.url }}</a></h2>
+    <p>{{ link.status }}</p>
+</article>
+{% endfor %}
+{% endblock %}

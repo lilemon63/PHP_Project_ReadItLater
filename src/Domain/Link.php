@@ -24,6 +24,15 @@ class Link
      * @var integer
      */
     private $status;
+    
+    
+    /**
+     * Associated categorie.
+     *
+     * @var \RIT\Domain\Categorie
+     */
+    private $categorie;
+
 
     public function getId() {
         return $this->id;
@@ -47,5 +56,13 @@ class Link
 
     public function setStatus($status) {
         $this->status = $status;
+    }
+    
+    public function getCategorie() {
+        return $this->categorie;
+    }
+
+    public function setCategorie(Categorie $categorie) {
+        $this->categorie = $categorie;
     }
 }

@@ -3,3 +3,7 @@
     padding-top: 10px;
     text-align: center;
 }
+
+.categorieName:hover, .categorieName:focus {
+    text-decoration: none;
+}

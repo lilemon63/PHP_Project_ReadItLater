@@ -1,0 +1,57 @@
+<?php
+
+namespace RIT\DAO;
+
+use Doctrine\DBAL\Connection;
+use RIT\Domain\Categorie;
+
+class CategorieDAO extends DAO
+{
+    /**
+     * Return a list of all categories
+     *
+     * @return array A list of all categories for the article.
+     */
+    public function findAll() {
+		$sql = "select * from rit_categorie";
+        $result = $this->getDb()->fetchAll($sql);
+        
+        // Convert query result to an array of domain objects
+        $categories = array();
+        foreach ($result as $row) {
+            $categorieId = $row['cat_id'];
+            $categories[$categorieId] = $this->buildDomainObject($row);
+        }
+        return $categories;
+    }
+
+    /**
+     * Creates a Categorie object based on a DB row.
+     *
+     * @param array $row The DB row containing Categorie data.
+     * @return \RIT\Domain\Categorie
+     */
+    protected function buildDomainObject(array $row) {
+		$categorie = new Categorie();
+        $categorie->setId($row['cat_id']);
+        $categorie->setName($row['cat_name']);
+        return $categorie;
+    }
+    
+    /**
+     * Returns a Categorie matching the supplied id.
+     *
+     * @param integer $id
+     *
+     * @return \RIT\Domain\Categorie|throws an exception if no matching article is found
+     */
+    public function find($id) {
+        $sql = "select * from rit_categorie where cat_id=?";
+        $row = $this->getDb()->fetchAssoc($sql, array($id));
+
+        if ($row)
+            return $this->buildDomainObject($row);
+        else
+            throw new \Exception("No article matching id " . $id);
+    }
+}

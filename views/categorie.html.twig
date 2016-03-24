@@ -1,0 +1,16 @@
+{% extends "layout.html.twig" %}
+
+{% block title %}{{ categorie.name }}{% endblock %}
+
+{% block content %}
+<p>
+    <h2>{{ categorie.name }}</h2>
+    <p>{{ categorie.id }}</p>
+    <h3>links : </h3>
+    {% for link in links %}
+        <strong>{{ link.url }}</strong> status : {{ link.status }}<br>
+    {% else %}
+        No link associated yet.
+    {% endfor %}
+</p>
+{% endblock %}
