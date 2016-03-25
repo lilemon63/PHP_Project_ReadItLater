@@ -110,3 +110,14 @@ $app->get('/system/createTables', function () use ($app) {
 	require(__DIR__ . '/../web/fixture/createTable.php'); 
 	return "<br/>";
 });
+
+$app->match('{url}', function($url) use ($app){
+	
+    $links = $app['dao.link']->findAllWithContent();
+    $categories = $app['dao.categorie']->findAll();
+    return $app['twig']
+		->render('viewMain.html.twig',	array(
+			'links' => $links,
+			'categories' => $categories,
+			'idCateg' => -1));
+})->assert('url', '.+');

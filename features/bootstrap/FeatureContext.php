@@ -62,7 +62,6 @@ class FeatureContext implements Context, SnippetAcceptingContext
      */
     public function iRunTheRouteToCreateMyDatabase()
     {	
-		
 		$ch = curl_init("http://localhost:8080/fixture/createDB");
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 		curl_exec($ch);
