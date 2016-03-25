@@ -11,13 +11,14 @@ $app->get('/categories', function () use ($app) {
 
 $app->get('/', function () use ($app) {
 
-    $links = $app['dao.link']->findAll();
+    $links = $app['dao.link']->findAllWithContent();
     $categories = $app['dao.categorie']->findAll();
     return $app['twig']
 		->render('viewMain.html.twig',	array(
 			'links' => $links,
 			'categories' => $categories));
 })->bind('home');
+
 
 
 $app->get('/categorie/{id}', function ($id) use ($app) {
@@ -30,12 +31,24 @@ $app->get('/categorie/{id}', function ($id) use ($app) {
 $app->post('/link/add/{url}',function($url) use ($app) {
 	$trueUrl = str_replace("_",".",$url);
 	$trueUrl = str_replace('+','/',$trueUrl);
-	$osef =$app['dao.link']->addLink($trueUrl); 
 	
-	return $osef;
+	return $app['dao.link']->addLink($trueUrl);
 })->bind('addLink');
 
 
+
+$app->get('/link/setContent/{id}',function($id) use ($app){
+	
+	$app['dao.link']->searchContent($id);
+	
+	return "osef\n";
+	
+})->bind('setContent');
+
+$app->get('/link/content/{id}',function($id) use ($app){
+	$link = $app['dao.link']->find($id);
+	return $app['twig']->render('content.html.twig', array( 'link' => $link));
+})->bind('content');
 
 /*
 $app->get('/info', function () use ($app) {

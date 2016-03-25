@@ -12,12 +12,17 @@
 	<categorie>
 		<h2><a class="categorieTitle" href="{{ path('categorie', { 'id': categorie.id }) }}">{{ categorie.name }}</a></h2>
 	</categorie>
+{% else %}
+	No categories yet.
 {% endfor %}
 </div>
 
 <div class="rightSide">
 {% for link in links %}
-    <h2>{{ link.url }}</a></h2>
+
+	<h2><a class="linkTitle" href="{{ path('content', { 'id': link.id }) }}">{{ link.url }}</a></h2>
+{% else %}
+	No link with content yet.
 {% endfor %}
 </div>
 {% endblock %}

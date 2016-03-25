@@ -44,12 +44,10 @@
     <script type="text/javascript">
 		
 		$( document ).ready(function() {
-			alert('coucou');
 				
 			$('#linkAddLink').click(function(){
 				var urlLink = $('#txtUrl').val();
 				
-				//alert('urlLink : ' + urlLink);
 				if(!urlLink.trim()){
 					alert('No url specified.');
 				}
@@ -58,7 +56,7 @@
 					//var urlTot = '/link/add/' + urlLink;
 					var sUrl = urlLink;
 					sUrl = sUrl.replace(/\//g,"+")
-										.replace(".","_");
+										.replace(/\./g,"_");
 					var urlAjax = '{{ path("addLink", {'url': 'url'}) }}'; 
 					urlAjax = urlAjax	.replace("url", sUrl);
 					alert("urlAjax : " + urlAjax);
