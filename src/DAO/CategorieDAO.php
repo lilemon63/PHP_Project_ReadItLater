@@ -66,4 +66,23 @@ class CategorieDAO extends DAO
 		$this->getDb()->insert('rit_categorie',array('cat_name' => $name));
 		return "0";
 	}
+	
+    public function changeCategorie($idLink, $idCateg){	
+		
+		$this->getDb()->update('rit_link', 
+					array(	'cat_id' => $idCateg )
+					, array('lnk_id' => $idLink)); // where lnk_id = $id
+		
+		return "0";
+	}
+	
+    public function removeCategorie($id){
+		
+		$this->getDb()->update('rit_link',
+				array( 'cat_id' => null),
+				array( 'cat_id' => $id));
+        
+        $this->getDb()->delete('rit_categorie',array('cat_id' => $id));
+        return "0";
+	}
 }

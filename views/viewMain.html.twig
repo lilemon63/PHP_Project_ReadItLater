@@ -11,18 +11,20 @@
 	<div class="col-md-4 col-md-pull-3">
 		<div class="container">
 			<div class="containter">
-				<span class="glyphicon glyphicon-book" style="vertical-align: middle;font-size:25px" aria-hidden="true"><a class="categorieTitle" href=""> Archives</a></span>
+				<span class="glyphicon glyphicon-book" style="vertical-align: middle;font-size:25px" aria-hidden="true"><a class="categorieTitle" href="{{ path('archived')}}"> Archives</a></span>
 			</div>
 			<div class="row">&nbsp;</div>
 		{% for categorie in categories %}
 			
 			<div class="container">
 				<div class="row">
-					{% if idCateg == categorie.id %}
 					
+					{% if idCateg == categorie.id %}
 				<span class="glyphicon glyphicon-folder-open" style="vertical-align: middle;font-size:25px" aria-hidden="true"> {{ categorie.name }}</span>
+				{#<span id="suppr_{{categorie.id}}" class="glyphicon glyphicon-minus removeCateg" style="vertical-align: middle;font-size:25px" aria-hidden="true"> #}
 					{% else %}
 				<span class="glyphicon glyphicon-folder-close" style="vertical-align: middle;font-size:25px" aria-hidden="true"><a class="categorieTitle" href="{{ path('categorie', { 'id': categorie.id }) }}"> {{ categorie.name }}</a></span>
+				<span id="suppr_{{categorie.id}}" class="glyphicon glyphicon-minus removeCateg" style="vertical-align: middle;font-size:25px" aria-hidden="true"> 
 				{% endif %}
 				</div>
 			</div>
@@ -58,7 +60,28 @@
 			<div class="container"><div class="panel panel-default">
 				<div class="panel-heading"><a class="linkTitle" href="{{ path('content', { 'id': link.id }) }}">{{ link.title }}</a></div>
 				<div class="panel-body">{{link.content |  slice(0,300) | raw}}...</div>
-				<div class="panel-footer">source : {{link.url}}</div>
+				<div class="panel-footer">source : {{link.url}}
+				
+				{% if archived is not defined %}
+				
+				<a id="archiveLink_{{link.id}}" class="archiveLink"><span class="glyphicon glyphicon-book" style="font-size:22px;float:right;margin-top:2px;margin-right:-6px" aria-hidden="true"></span></a>
+				
+				
+				<div class="btn-group pull-right" >
+				  <button type="button" class="btn btn-default dropdown-toggle " data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					Categorize <span class="caret"></span>
+				  </button>
+				  <ul class="dropdown-menu">
+					 {% for categorie in categories %} 
+					<li><a id="ddmBtn-{{link.id}}_{{categorie.id}}" class="changeCateg">{{categorie.name}}</a></li>
+					{% endfor %}
+				  </ul>
+				</div>
+				{% else %}
+					<a id="removeLink_{{link.id}}" class="removeLink"><span class="glyphicon glyphicon-trash" style="font-size:22px;float:right;margin-top:2px;margin-right:-6px" aria-hidden="true"></span></a>
+			
+				{% endif %}
+			</div>
 			</div></div>
 		{% else %}
 
@@ -74,36 +97,6 @@
 
 
 {% block scriptReady %}
-/*
-	$('#linkAddCateg').click(function(){
-		var nameCateg = $('#txtCateg').val();
-			
-		if(!nameCateg.trim()){
-			alert('No categorie's name specified.');
-		}
-		else{
-			var urlAjax = '{{ path("addCateg", {'name': 'name'}) }}'; 
-			urlAjax = urlAjax	.replace("name",nameCateg );
-			$.ajax({
-				type: "GET",
-				url: urlAjax,
-				success: function( msg,stat, settings ) {
-					if(settings.responseText === "1"){
-						alert("This categorie already exists.");
-					}
-					else{
-						alert("Categorie " + nameCateg + " created !");
-					}
-				},
-				error: function (xhr, ajaxOptions, thrownError) {
-					console.log(xhr.status);
-					console.log(thrownError);
-					
-				}
-			});
-		}
-	});*/
-	
 	$('#linkAddCateg').click(function(){
 		var nameCateg = $('#txtCateg').val();
 		
@@ -122,7 +115,7 @@
 						alert("This categorie already exists.");
 					}
 					else{
-						alert("Categorie " + nameCateg + " created !");
+						location.reload();
 					}
 				},
 				error: function (xhr, ajaxOptions, thrownError) {
@@ -133,4 +126,83 @@
 			});
 		}
 	});
+	
+
+	
+	$('.removeCateg').click(function(){
+		var idCateg = this.id.split("_")[1];
+		
+		var urlAjax = '{{ path("removeCateg", {'idCateg': 'idCateg'}) }}'; 
+		urlAjax = urlAjax	.replace("idCateg",idCateg );
+		
+		$.ajax({
+			type: "POST",
+			url: urlAjax,
+			success: function( msg,stat, settings ) {
+				location.reload();
+			},
+			error: function (xhr, ajaxOptions, thrownError) {
+				
+			}
+		});
+		
+	});
+	{% if archived is not defined %}
+		
+			$('.changeCateg').click(function(){
+		var double_id = this.id.split("-")[1];
+	
+		var urlAjax = '{{ path("changeCateg", {'doubleId': 'doubleId'}) }}'; 
+		urlAjax = urlAjax	.replace("doubleId",double_id );
+		
+		$.ajax({
+			type: "POST",
+			url: urlAjax,
+			success: function( msg,stat, settings ) {
+				location.reload();
+			},
+			error: function (xhr, ajaxOptions, thrownError) {
+				
+			}
+		});
+		
+	});
+	
+	$('.archiveLink').click(function() {
+		var idLink = this.id.split("_")[1];
+		var urlAjax = '{{ path("archiveLink", {'id': 'id'}) }}'; 
+		urlAjax = urlAjax	.replace("id",idLink );
+		
+		$.ajax({
+			type: "POST",
+			url: urlAjax,
+			success: function( msg,stat, settings ) {
+				location.reload();
+			},
+			error: function (xhr, ajaxOptions, thrownError) {
+				
+			}
+		});
+		
+	});
+	{% else %}
+		$('.removeLink').click(function() {
+		var idLink = this.id.split("_")[1];
+		var urlAjax = '{{ path("removeLink", {'id': 'id'}) }}'; 
+		urlAjax = urlAjax	.replace("id",idLink );
+		
+		$.ajax({
+			type: "POST",
+			url: urlAjax,
+			success: function( msg,stat, settings ) {
+				location.reload();
+			},
+			error: function (xhr, ajaxOptions, thrownError) {
+				
+			}
+		});
+		
+	});
+	{% endif %}
+	
 {% endblock %}

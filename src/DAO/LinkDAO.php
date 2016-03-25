@@ -26,6 +26,14 @@ class LinkDAO extends DAO
         foreach ($result as $row) {
             $linkId = $row['lnk_id'];
             $links[$linkId] = $this->buildDomainObject($row);
+            if(null !== $row['cat_id']){
+				$sql2 = "select * from rit_categories";
+				$r2 = $this->getDb()->fetchAll($sql2);
+				$cat = new Categorie();
+				$cat->setId($r2[0]['cat_id']);
+				$cat->setName($r2[0]['cat_name']);
+				$links[$linkId]->setArticle($cat);
+			}
         }
         return $links;
     }
@@ -191,5 +199,18 @@ class LinkDAO extends DAO
 		if(isset($content)){
 			$link->setContent($content);
 		}
+	}
+	
+	public function archiveLink($id){
+		$this->getDb()->update('rit_link', 
+		array(	'lnk_status' => 3), 
+		 array('lnk_id' => $id)); // where lnk_id = $id
+		return "0";
+	}
+	
+	public function removeLink($id){
+		
+        $this->getDb()->delete('rit_link',array('lnk_id' => $id));
+        return "0";
 	}
 }

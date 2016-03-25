@@ -11,6 +11,7 @@
     <title>ReadItLater - {% block title %}{% endblock %}</title>
 	
     <script src="{{app.request.basepath}}/lib/jquery/jquery.min.js"></script>
+    <script src="{{ app.request.basepath }}/lib/bootstrap/js/bootstrap.min.js"></script>
     
 </head>
 <body>
@@ -37,11 +38,11 @@
 		<div class="container-fluid corps">{% block content %}{% endblock %}</div>
         
         <footer class="footer">
-			<div class="container">
+			<div class="container" style="z-index:1">
 			  
-				<nav class="navbar navbar-default navbar-fixed-bottom" role="navigation">
-					<div class="navbar-inner navbar-content-center">
-						<div class="row" style="text-align:center"><b>ReadItLater</b> by Maxime Mikotajewski & Damien Morel</div>
+				<nav class="navbar navbar-default navbar-fixed-bottom" role="navigation" style="z-index:1">
+					<div class="navbar-inner navbar-content-center" style="z-index:1">
+						<div class="row" style="text-align:center" style="z-index:1"><b>ReadItLater</b> by Maxime Mikotajewski & Damien Morel</div>
 					</div>
 				</div>
             </div>
@@ -72,7 +73,6 @@
 								alert("This link is already saved.");
 							}
 							else{
-								
 								alert("Link " + urlLink + " saved !");
 							}
 						},

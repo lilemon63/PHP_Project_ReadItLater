@@ -20,6 +20,19 @@ $app->get('/', function () use ($app) {
 			'idCateg' => -1));
 })->bind('home');
 
+$app->get('/archived', function () use ($app) {
+
+    $links = $app['dao.link']->findAllArchived();
+    $categories = $app['dao.categorie']->findAll();
+    return $app['twig']
+		->render('viewMain.html.twig',	array(
+			'links' => $links,
+			'categories' => $categories,
+			'idCateg' => -1,
+			'archived' => 1
+			));
+})->bind('archived');
+
 
 
 $app->get('/categorie/{id}', function ($id) use ($app) {
@@ -62,6 +75,24 @@ $app->post('/categ/add/{name}',function($name) use ($app) {
 	return $app['dao.categorie']->addCategorie($name);
 })->bind('addCateg');
 
+
+$app->post('/categ/swap/{doubleId}',function($doubleId) use ($app) {
+	$ids = explode("_",$doubleId);
+	return $app['dao.categorie']->changeCategorie($ids[0],$ids[1]);
+})->bind('changeCateg');
+
+
+$app->post('/categ/remove/{idCateg}',function($idCateg) use ($app) {
+	return $app['dao.categorie']->removeCategorie($idCateg);
+})->bind('removeCateg');
+
+$app->post('/link/archive/{id}',function($id) use ($app) {
+	return $app['dao.link']->archiveLink($id);
+})->bind('archiveLink');
+
+$app->post('/link/remove/{id}',function($id) use ($app) {
+	return $app['dao.link']->removeLink($id);
+})->bind('removeLink');
 /*
 $app->get('/info', function () use ($app) {
     return phpinfo();//'Hello '.$app->escape($name);
