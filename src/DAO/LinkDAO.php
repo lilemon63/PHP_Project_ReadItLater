@@ -185,7 +185,7 @@ class LinkDAO extends DAO
 	public function parse_content_data($link){
 
 		$html = $this->get_remote_data($link->getUrl());
-
+		
 		$doc = new \DOMDocument();
 		@$doc->loadHTML($html);
 		$nodes = $doc->getElementsByTagName('title');
@@ -213,14 +213,26 @@ class LinkDAO extends DAO
 	}
 	
 	public function archiveLink($id){
+		try{
+			$this->find($id);
+		}
+		catch(Exception $e){
+			return "1";
+		}
 		$this->getDb()->update('rit_link', 
-		array(	'lnk_status' => 3), 
+		array(	'lnk_status' => 3,
+				'cat_id' => null), 
 		 array('lnk_id' => $id)); // where lnk_id = $id
 		return "0";
 	}
 	
 	public function removeLink($id){
-		
+		try{
+			$this->find($id);
+		}
+		catch(Exception $e){
+			return "1";
+		}
         $this->getDb()->delete('rit_link',array('lnk_id' => $id));
         return "0";
 	}

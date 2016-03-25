@@ -77,7 +77,12 @@ class CategorieDAO extends DAO
 	}
 	
     public function removeCategorie($id){
-		
+		try{
+			$this->find($id);
+		}
+		catch(Exception $e){
+			return "1";
+		}
 		$this->getDb()->update('rit_link',
 				array( 'cat_id' => null),
 				array( 'cat_id' => $id));

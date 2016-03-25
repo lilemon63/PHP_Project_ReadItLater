@@ -9,7 +9,6 @@ $user='rit_user';
 $pass='a1z2e3r4';
 $db="rit_db"; 
 
-grant all privileges on rit_db.* to 'rit_user'@'localhost' identified by 'a1z2e3r4';
 
 try {
 	$dbh = new PDO("mysql:host=$host", $root, $root_password);

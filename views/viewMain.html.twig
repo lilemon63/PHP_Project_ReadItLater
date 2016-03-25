@@ -108,7 +108,7 @@
 			urlAjax = urlAjax	.replace("name",nameCateg );
 			
 			$.ajax({
-				type: "POST",
+				type: "GET",
 				url: urlAjax,
 				success: function( msg,stat, settings ) {
 					if(settings.responseText === "1"){
@@ -136,7 +136,7 @@
 		urlAjax = urlAjax	.replace("idCateg",idCateg );
 		
 		$.ajax({
-			type: "POST",
+			type: "GET",
 			url: urlAjax,
 			success: function( msg,stat, settings ) {
 				location.reload();
@@ -151,12 +151,14 @@
 		
 			$('.changeCateg').click(function(){
 		var double_id = this.id.split("-")[1];
+		var idLink = double_id.split("_")[0];
+		var idCateg = double_id.split("_")[1];
 	
-		var urlAjax = '{{ path("changeCateg", {'doubleId': 'doubleId'}) }}'; 
-		urlAjax = urlAjax	.replace("doubleId",double_id );
+		var urlAjax = '{{ path("changeCateg", {'idLink': 'idLink','idCateg': 'idCateg'}) }}'; 
+		urlAjax = urlAjax	.replace("idLink",idLink ).replace("idCateg",idCateg);
 		
 		$.ajax({
-			type: "POST",
+			type: "GET",
 			url: urlAjax,
 			success: function( msg,stat, settings ) {
 				location.reload();
@@ -174,7 +176,7 @@
 		urlAjax = urlAjax	.replace("id",idLink );
 		
 		$.ajax({
-			type: "POST",
+			type: "GET",
 			url: urlAjax,
 			success: function( msg,stat, settings ) {
 				location.reload();
@@ -192,7 +194,7 @@
 		urlAjax = urlAjax	.replace("id",idLink );
 		
 		$.ajax({
-			type: "POST",
+			type: "GET",
 			url: urlAjax,
 			success: function( msg,stat, settings ) {
 				location.reload();
