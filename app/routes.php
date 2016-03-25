@@ -16,7 +16,8 @@ $app->get('/', function () use ($app) {
     return $app['twig']
 		->render('viewMain.html.twig',	array(
 			'links' => $links,
-			'categories' => $categories));
+			'categories' => $categories,
+			'idCateg' => -1));
 })->bind('home');
 
 
@@ -24,8 +25,14 @@ $app->get('/', function () use ($app) {
 $app->get('/categorie/{id}', function ($id) use ($app) {
     $categorie = $app['dao.categorie']->find($id);
     $links = $app['dao.link']->findAllByCategorie($id);
+    $categories = $app['dao.categorie']->findAll();
     
-    return $app['twig']->render('categorie.html.twig', array('categorie' => $categorie, 'links' => $links));
+    return $app['twig']
+		->render('viewMain.html.twig',	array(
+			'links' => $links,
+			'categories' => $categories,
+			'idCateg' => $id));
+    //return $app['twig']->render('categorie.html.twig', array('categorie' => $categorie, 'links' => $links));
 })->bind('categorie');
 
 $app->post('/link/add/{url}',function($url) use ($app) {
@@ -49,6 +56,11 @@ $app->get('/link/content/{id}',function($id) use ($app){
 	$link = $app['dao.link']->find($id);
 	return $app['twig']->render('content.html.twig', array( 'link' => $link));
 })->bind('content');
+
+$app->post('/categ/add/{name}',function($name) use ($app) {
+	
+	return $app['dao.categorie']->addCategorie($name);
+})->bind('addCateg');
 
 /*
 $app->get('/info', function () use ($app) {

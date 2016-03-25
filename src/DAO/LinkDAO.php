@@ -73,7 +73,7 @@ class LinkDAO extends DAO
     public function findAllByCategorie($categorieId) {
 		
 		$categ = $this->categorieDAO->find($categorieId);
-        $sql = "select lnk_id,lnk_url,lnk_status from rit_link where cat_id=?";
+        $sql = "select * from rit_link where cat_id=?";
         
         $result = $this->getDb()->fetchAll($sql,array($categorieId));
         
@@ -101,6 +101,7 @@ class LinkDAO extends DAO
         $link->setId($row['lnk_id']);
         $link->setUrl($row['lnk_url']);
         $link->setStatus($row['lnk_status']);
+        
         $link->setContent($row['lnk_content']);
         $link->setTitle($row['lnk_title']);
         return $link;

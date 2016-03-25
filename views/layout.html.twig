@@ -32,12 +32,18 @@
                 </div>
             </div><!-- /.container -->
         </nav>
-        <div class="row"></div>
-        <div class="corps" id="content">{% block content %}{% endblock %}</div>
-        <div class="row">&nbsp;</div>
+        
+        
+		<div class="container-fluid corps">{% block content %}{% endblock %}</div>
+        
         <footer class="footer">
-			<div class="row">
-            <b>ReadItLater</b> by Maxime Mikotajewski & Damien Morel
+			<div class="container">
+			  
+				<nav class="navbar navbar-default navbar-fixed-bottom" role="navigation">
+					<div class="navbar-inner navbar-content-center">
+						<div class="row" style="text-align:center"><b>ReadItLater</b> by Maxime Mikotajewski & Damien Morel</div>
+					</div>
+				</div>
             </div>
         </footer>
     </div>
@@ -52,14 +58,12 @@
 					alert('No url specified.');
 				}
 				else{
-					alert('nice url. I like that');
 					//var urlTot = '/link/add/' + urlLink;
 					var sUrl = urlLink;
 					sUrl = sUrl.replace(/\//g,"+")
 										.replace(/\./g,"_");
 					var urlAjax = '{{ path("addLink", {'url': 'url'}) }}'; 
 					urlAjax = urlAjax	.replace("url", sUrl);
-					alert("urlAjax : " + urlAjax);
 					$.ajax({
 						type: "POST",
 						url: urlAjax,

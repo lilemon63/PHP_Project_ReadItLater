@@ -7,22 +7,130 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
-<div class="leftSide">
-{% for categorie in categories %}
-	<categorie>
-		<h2><a class="categorieTitle" href="{{ path('categorie', { 'id': categorie.id }) }}">{{ categorie.name }}</a></h2>
-	</categorie>
-{% else %}
-	No categories yet.
-{% endfor %}
-</div>
+<div class="row">
+	<div class="col-md-4 col-md-pull-3">
+		<div class="container">
+			<div class="containter">
+				<span class="glyphicon glyphicon-book" style="vertical-align: middle;font-size:25px" aria-hidden="true"><a class="categorieTitle" href=""> Archives</a></span>
+			</div>
+			<div class="row">&nbsp;</div>
+		{% for categorie in categories %}
+			
+			<div class="container">
+				<div class="row">
+					{% if idCateg == categorie.id %}
+					
+				<span class="glyphicon glyphicon-folder-open" style="vertical-align: middle;font-size:25px" aria-hidden="true"> {{ categorie.name }}</span>
+					{% else %}
+				<span class="glyphicon glyphicon-folder-close" style="vertical-align: middle;font-size:25px" aria-hidden="true"><a class="categorieTitle" href="{{ path('categorie', { 'id': categorie.id }) }}"> {{ categorie.name }}</a></span>
+				{% endif %}
+				</div>
+			</div>
+			
+			<div class="row">&nbsp;</div>
+		{% else %}
 
-<div class="rightSide">
-{% for link in links %}
+			<div class="container">
+				<div class="row">
+					No categories yet.
+				</div>
+			</div>
+		{% endfor %}
+		
+			<div class="containter">
+				<div class="row">
+				<span  class="glyphicon glyphicon-plus" style="vertical-align: middle;font-size:25px" aria-hidden="true"><a id="linkAddCateg" class="categorieTitle" href=""> Add categorie</a></span>
+				</div>
+				
+				<div class="row">&nbsp;</div>
+				<div class="row">
+                    <input id="txtCateg" type="text" id="usr">
+                 </div>
+			</div>
+		</div>
+	</div>
 
-	<h2><a class="linkTitle" href="{{ path('content', { 'id': link.id }) }}">{{ link.url }}</a></h2>
-{% else %}
-	No link with content yet.
-{% endfor %}
+
+	<div class="col-md-5 col-md-pull-4" >
+		<div class="container">
+		{% for link in links %}
+
+			<div class="container"><div class="panel panel-default">
+				<div class="panel-heading"><a class="linkTitle" href="{{ path('content', { 'id': link.id }) }}">{{ link.title }}</a></div>
+				<div class="panel-body">{{link.content |  slice(0,300) | raw}}...</div>
+				<div class="panel-footer">source : {{link.url}}</div>
+			</div></div>
+		{% else %}
+
+			<div class="container">
+			No link with content yet.
+			</div>
+		{% endfor %}
+		</div>
+	</div>
+	<div class="col-md-offset-3">&nbsp;</div>
 </div>
+{% endblock %}
+
+
+{% block scriptReady %}
+/*
+	$('#linkAddCateg').click(function(){
+		var nameCateg = $('#txtCateg').val();
+			
+		if(!nameCateg.trim()){
+			alert('No categorie's name specified.');
+		}
+		else{
+			var urlAjax = '{{ path("addCateg", {'name': 'name'}) }}'; 
+			urlAjax = urlAjax	.replace("name",nameCateg );
+			$.ajax({
+				type: "GET",
+				url: urlAjax,
+				success: function( msg,stat, settings ) {
+					if(settings.responseText === "1"){
+						alert("This categorie already exists.");
+					}
+					else{
+						alert("Categorie " + nameCateg + " created !");
+					}
+				},
+				error: function (xhr, ajaxOptions, thrownError) {
+					console.log(xhr.status);
+					console.log(thrownError);
+					
+				}
+			});
+		}
+	});*/
+	
+	$('#linkAddCateg').click(function(){
+		var nameCateg = $('#txtCateg').val();
+		
+		if(!nameCateg.trim()){
+			alert('No name specified.');
+		}
+		else{
+			var urlAjax = '{{ path("addCateg", {'name': 'name'}) }}'; 
+			urlAjax = urlAjax	.replace("name",nameCateg );
+			
+			$.ajax({
+				type: "POST",
+				url: urlAjax,
+				success: function( msg,stat, settings ) {
+					if(settings.responseText === "1"){
+						alert("This categorie already exists.");
+					}
+					else{
+						alert("Categorie " + nameCateg + " created !");
+					}
+				},
+				error: function (xhr, ajaxOptions, thrownError) {
+					console.log(xhr.status);
+					console.log(thrownError);
+					
+				}
+			});
+		}
+	});
 {% endblock %}

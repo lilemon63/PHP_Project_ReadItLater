@@ -1,12 +1,19 @@
+/*
 .leftSide {
   float: left;
-  width: 30%;
+  width: 20%;
   position:relative;
 }
 
 .rightSide{
   float: left;
-  width: 70%;
+  width: 80%;
   position:relative;
 }
-
+*/
+.categorie{
+	font-size:"90px"
+}
+.glyphicon.folderSize{
+	font-size:"50px"
+}

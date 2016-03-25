@@ -1,16 +1,17 @@
-.footer {
+
+/*.footer {
     border-top: 1px solid #ccc;
     padding-top: 10px;
     text-align: center;
     bottom:0;
     position:relative;
     float:left;
-}
+}*/
 
 .corps{
 	padding-top:5%;
 }
 
-.categorieName:hover, .categorieName:focus {
+.categorieTitle:hover, .categorieTitle:focus {
     text-decoration: none;
 }

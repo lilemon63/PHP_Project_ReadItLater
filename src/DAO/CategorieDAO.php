@@ -54,4 +54,16 @@ class CategorieDAO extends DAO
         else
             throw new \Exception("No article matching id " . $id);
     }
+    
+        
+    public function addCategorie($name){	
+		$sql = "select COUNT(*) as a from rit_categorie where cat_name=?";
+        $result = $this->getDb()->fetchAll($sql,array($name));
+        if($result[0]['a'] == "1"){
+			return "1";
+		}
+		
+		$this->getDb()->insert('rit_categorie',array('cat_name' => $name));
+		return "0";
+	}
 }
