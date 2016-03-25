@@ -5,8 +5,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="{{ app.request.basepath }}/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="{{ app.request.basepath }}/	css/layout.css" rel="stylesheet">
+    <link href="{{ app.request.basepath }}/css/layout.css" rel="stylesheet">
+    
+    {% block header %}{% endblock %}
     <title>ReadItLater - {% block title %}{% endblock %}</title>
+	
+    <script src="{{app.request.basepath}}/lib/jquery/jquery.min.js"></script>
+    
 </head>
 <body>
 	
@@ -19,16 +24,74 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="{{ path('home') }}">ReadItLater</a>
+                    <a class="navbar-brand" href="{{ path('home') }}">ReadItLater&nbsp;&nbsp;</a>
+                    <input id="txtUrl" type="text" class="navbar-brand" id="usr">
+                    <a id="linkAddLink" class="navbar-brand">&nbsp;&nbsp;Add link</a>
                 </div>
                 <div class="collapse navbar-collapse" id="navbar-collapse-target">
                 </div>
             </div><!-- /.container -->
         </nav>
-        <div id="content">{% block content %}{% endblock %}</div>
+        <div class="row"></div>
+        <div class="corps" id="content">{% block content %}{% endblock %}</div>
+        <div class="row">&nbsp;</div>
         <footer class="footer">
+			<div class="row">
             <b>ReadItLater</b> by Maxime Mikotajewski & Damien Morel
+            </div>
         </footer>
     </div>
+    <script type="text/javascript">
+		
+		$( document ).ready(function() {
+			alert('coucou');
+				
+			$('#linkAddLink').click(function(){
+				var urlLink = $('#txtUrl').val();
+				
+				//alert('urlLink : ' + urlLink);
+				if(!urlLink.trim()){
+					alert('No url specified.');
+				}
+				else{
+					alert('nice url. I like that');
+					//var urlTot = '/link/add/' + urlLink;
+					var sUrl = urlLink;
+					sUrl = sUrl.replace(/\//g,"+")
+										.replace(".","_");
+					var urlAjax = '{{ path("addLink", {'url': 'url'}) }}'; 
+					urlAjax = urlAjax	.replace("url", sUrl);
+					alert("urlAjax : " + urlAjax);
+					$.ajax({
+						type: "POST",
+						url: urlAjax,
+						success: function( msg,stat, settings ) {
+							if(settings.responseText === "1"){
+								alert("This link is already saved.");
+							}
+							else{
+								
+								alert("Link " + urlLink + " saved !");
+							}
+						},
+						error: function (xhr, ajaxOptions, thrownError) {
+							console.log(xhr.status);
+							console.log(thrownError);
+							
+						}
+					});
+				}
+			});
+			
+			{% block scriptReady %}
+			
+			{% endblock %}
+			
+		});
+		
+		{% block scripts %}
+		{% endblock %}
+    </script>
+    
 </body>
 </html>

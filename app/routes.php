@@ -1,19 +1,23 @@
 <?php
 
-$app->get('/index', function () use ($app) {
+$app->get('/categories', function () use ($app) {
 
     $categories = $app['dao.categorie']->findAll();
+    
     return $app['twig']
 		->render('viewIndex.html.twig',array('categories' => $categories));
-})->bind('home');
+})->bind('categories');
 
 
 $app->get('/', function () use ($app) {
 
     $links = $app['dao.link']->findAll();
+    $categories = $app['dao.categorie']->findAll();
     return $app['twig']
-		->render('viewMain.html.twig',array('links' => $links));
-})->bind('links');
+		->render('viewMain.html.twig',	array(
+			'links' => $links,
+			'categories' => $categories));
+})->bind('home');
 
 
 $app->get('/categorie/{id}', function ($id) use ($app) {
@@ -22,6 +26,16 @@ $app->get('/categorie/{id}', function ($id) use ($app) {
     
     return $app['twig']->render('categorie.html.twig', array('categorie' => $categorie, 'links' => $links));
 })->bind('categorie');
+
+$app->post('/link/add/{url}',function($url) use ($app) {
+	$trueUrl = str_replace("_",".",$url);
+	$trueUrl = str_replace('+','/',$trueUrl);
+	$osef =$app['dao.link']->addLink($trueUrl); 
+	
+	return $osef;
+})->bind('addLink');
+
+
 
 /*
 $app->get('/info', function () use ($app) {

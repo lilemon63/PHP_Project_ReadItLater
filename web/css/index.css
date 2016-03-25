@@ -1,0 +1,12 @@
+.leftSide {
+  float: left;
+  width: 30%;
+  position:relative;
+}
+
+.rightSide{
+  float: left;
+  width: 70%;
+  position:relative;
+}
+

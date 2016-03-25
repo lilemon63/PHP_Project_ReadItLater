@@ -1,12 +1,23 @@
 {% extends "layout.html.twig" %}
 
+{% block header %}
+    <link href="{{ app.request.basepath }}/css/index.css" rel="stylesheet">
+{% endblock %}
+
 {% block title %}Home{% endblock %}
 
 {% block content %}
-{% for link in links %}
-<article>
-    <h2>{{link.url }}</a></h2>
-    <p>{{ link.status }}</p>
-</article>
+<div class="leftSide">
+{% for categorie in categories %}
+	<categorie>
+		<h2><a class="categorieTitle" href="{{ path('categorie', { 'id': categorie.id }) }}">{{ categorie.name }}</a></h2>
+	</categorie>
 {% endfor %}
+</div>
+
+<div class="rightSide">
+{% for link in links %}
+    <h2>{{ link.url }}</a></h2>
+{% endfor %}
+</div>
 {% endblock %}

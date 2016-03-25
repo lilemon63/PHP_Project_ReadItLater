@@ -4,9 +4,9 @@
 
 {% block content %}
 {% for categorie in categories %}
-<article>
+<div>
     <h2><a class="categorieTitle" href="{{ path('categorie', { 'id': categorie.id }) }}">{{ categorie.name }}</a></h2>
     <p>{{ categorie.id }}</p>
-</article>
+</div>
 {% endfor %}
 {% endblock %}

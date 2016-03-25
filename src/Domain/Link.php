@@ -19,11 +19,18 @@ class Link
     private $url;
 
     /**
-     * Link status.
+     * Link status
      *
      * @var integer
      */
-    private $status;
+    private $status;    
+    
+    /**
+     * Link content
+     *
+     * @var string
+     */
+    private $content;
     
     
     /**
@@ -56,6 +63,14 @@ class Link
 
     public function setStatus($status) {
         $this->status = $status;
+    }
+    
+    public function getContent() {
+        return $this->content;
+    }
+
+    public function setContent($content) {
+        $this->content = $content;
     }
     
     public function getCategorie() {
