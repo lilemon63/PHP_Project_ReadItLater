@@ -124,7 +124,18 @@ class LinkDAO extends DAO
 		}
 		
 		$this->getDb()->insert('rit_link',array('lnk_url' => $url, 'lnk_status' => 1,'lnk_content' => ''));
+		
+
 		return "0";
+	}
+	
+	public function getIdByUrl($url){
+		$sql = "select * from rit_link where lnk_url=?";
+        $result = $this->getDb()->fetchAll($sql,array($url));
+        foreach($result as $row){
+			$link = $this->buildDomainObject($row);
+		}
+		return $link->getId();
 	}
 	
 	public function searchContent($id){

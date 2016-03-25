@@ -49,10 +49,16 @@ $app->get('/categorie/{id}', function ($id) use ($app) {
 })->bind('categorie');
 
 $app->post('/link/add/{url}',function($url) use ($app) {
-	$trueUrl = str_replace("_",".",$url);
+	$trueUrl = str_replace(",",".",$url);
 	$trueUrl = str_replace('+','/',$trueUrl);
 	
-	return $app['dao.link']->addLink($trueUrl);
+	
+	
+	//return $app['dao.link']->addLink($trueUrl);
+	$app['dao.link']->addLink($trueUrl);
+	
+	$app['dao.link']->searchContent($app['dao.link']->getIdByUrl($trueUrl));
+	return "0";
 })->bind('addLink');
 
 
@@ -61,7 +67,7 @@ $app->get('/link/setContent/{id}',function($id) use ($app){
 	
 	$app['dao.link']->searchContent($id);
 	
-	return "osef\n";
+	return "0";
 	
 })->bind('setContent');
 
@@ -93,17 +99,18 @@ $app->post('/link/archive/{id}',function($id) use ($app) {
 $app->post('/link/remove/{id}',function($id) use ($app) {
 	return $app['dao.link']->removeLink($id);
 })->bind('removeLink');
+
+
+$app->get('/fixture/createDB', function () use ($app) {
+	require(__DIR__ .'/../web/createDB.php');
+	return "<br/>";
+});
+
 /*
 $app->get('/info', function () use ($app) {
     return phpinfo();//'Hello '.$app->escape($name);
 });
 
-
-$app->get('/system/createDB', function () use ($app) {
-	require(__DIR__ .'/../web/DB/createDB.php');
-	//return phpinfo();//'Hello '.$app->escape($name);
-	return "<br/>";
-});
 
 
 $app->get('/system/createTable', function () use ($app) {
